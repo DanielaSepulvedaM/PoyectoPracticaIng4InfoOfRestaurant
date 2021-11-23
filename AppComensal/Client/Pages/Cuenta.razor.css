@@ -1,0 +1,36 @@
+﻿.encabezado {
+    font-size: 14px;
+    justify-content: center;
+    color: black;
+}
+.encabezados {
+    font-size: 12px;
+}
+.contenido {
+    font-size: 10px;
+}
+.txtTotal {
+    float: right;
+    margin-left: 236px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: left;
+}
+.btnMesero {
+    border: 1px solid hsl(39deg 84% 52%);
+    margin-left: 7px;
+    margin-bottom: 5px;
+    color: hsl(39deg 84% 52%);
+    background: hsl(0deg 0% 100%);
+}
+.navLink {
+    background: hsl(39deg 84% 52%);
+    padding: 0px;
+    margin-bottom: 5px;
+    color: hsl(0deg 0% 100%);
+}

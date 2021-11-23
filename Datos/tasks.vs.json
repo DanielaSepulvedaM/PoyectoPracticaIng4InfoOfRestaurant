@@ -1,0 +1,25 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskLabel": "Actualizar modelo",
+      "taskName": "Actualizar",
+      "appliesTo": "InfoOfRestaurantContext.cs",
+      "command": "dotnet",
+      "args": [
+        "ef",
+        "dbcontext Scaffold",
+        "\"Server=(localdb)\\MSSQLLocalDB;Database=InfoOfRestaurant;Trusted_Connection=True;\"",
+        "Microsoft.EntityFrameworkCore.SqlServer",
+        "-o Models",
+        "--use-database-names",
+        "--no-pluralize",
+        "--data-annotations",
+        "-f",
+        "--schema dbo"
+      ],
+      "contextType": "custom",
+      "type": "default"
+    }
+  ]
+}

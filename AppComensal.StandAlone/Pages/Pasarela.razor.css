@@ -1,0 +1,80 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.principal {
+    background-size: cover; /*adapta a la pantalla*/
+    background-attachment: fixed;
+}
+
+.contenedor .form .form-header .form-title {
+    font-weight: normal;
+    font-family: sans-serif;
+    text-align: center;
+    padding: 14px 0;
+}
+
+    .contenedor .form .form-header .form-title span {
+        color: black;
+    }
+
+::deep .form {
+    max-width: 600px;
+    margin: auto;
+    padding: 5px 35px;
+    margin-top: 30px;
+    padding-bottom: 30px;
+    border-radius: 9px;
+    margin: 19px;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+    border: 1px solid rgb(0 0 0 / 10%);
+}
+
+
+::deep .contenedor .form .form-input, .form-textarea {
+    background: #FBFBFB;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #080808;
+    width: 100%;
+    padding: 12px 0;
+    margin-bottom: 20px;
+    border-radius: 2px;
+    font-size: 14px;
+    color: black;
+}
+
+::deep .contenedor .form .form-input {
+    background: #FBFBFB;
+    padding-left: 4px;
+    color: black;
+    height: 1%;
+}
+
+    .contenedor .form .form-textarea {
+        resize: vertical;
+        padding-left: 4px;
+        max-height: 150px;
+        min-height: 50px;
+    }
+
+    .contenedor .form .btn-submit {
+        width: 100%;
+        outline: none;
+        background: #9D132C;
+        font-size: 16px;
+        border: none;
+        color: white;
+        padding: 12px;
+        cursor: pointer;
+        transition: all .7s ease;
+    }
+
+        .contenedor .form .btn-submit:hover {
+            background: #820E23;
+        }
+label {
+    color: #898989;
+}

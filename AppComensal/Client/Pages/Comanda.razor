@@ -1,0 +1,96 @@
+﻿@page "/comanda"
+@inject PedidoService comandaSvc
+@inject OrdenService ordenSvc
+@inject RestauranteService restauranteSvc
+@inject NavigationManager navManager
+@inject IJSRuntime JsRuntime
+
+<div class="contPrincipal h-100">
+    <h6 class="encabezado ml-3">Mi pedido</h6>
+    <hr />
+    <table class="ml-3">
+        <thead>
+            <tr class="encabezados row m-1">
+                <th class="col-5">Nombre</th>
+                <th class="col-5">Notas</th>
+                <th class="col-2">Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in items)
+            {
+                <tr class="contenido row m-1">
+                    <td class="col-5">
+                        @item.Nombre
+                    </td>
+                    <td class="col-5">
+                        @item.Nota
+                    </td>
+                    <td class="col-2">
+                        <button class="btn-sm btnEliminar" @onclick="() => Quitar(item)">Quitar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+        <tfoot>
+            <hr />
+            <tr>
+
+                <td class="txtTotal" colspan="2">
+                    Total: @items.Sum(i => i.Precio)
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+   
+    <footer class="footer mx-4 row">
+        <div class="col-1"></div>
+        <NavLink class="nav-link col-4 btn navLink" href="" style="background: hsl(39deg 84% 52%); padding: 0px; margin-bottom: 5px; color: hsl(0deg 0% 100%);">
+            <span></span>Agregar mas
+        </NavLink>
+        <button class="btn btn-light btnOrdenar col-4" @onclick="Ordenar">Ordenar</button>
+        <div class="col-1"></div>
+    </footer>
+</div>
+
+
+
+@code {
+
+    private IEnumerable<Item> items;
+
+
+    protected override void OnInitialized()
+    {
+        this.items = comandaSvc.Items;
+        base.OnInitialized();
+    }
+
+    private void Quitar(Item item)
+    {
+        comandaSvc.QuitarConsumible(item);
+        this.items = comandaSvc.Items;
+    }
+
+    private async Task Ordenar()
+    {
+        var restauranteId = await restauranteSvc.ObtenerRestauranteId();
+        var mesaId = await restauranteSvc.ObtenerMesa();
+
+        var model = new ComandaModel
+        {
+            MesaId = mesaId,
+            RestauranteId = restauranteId,
+            Items = comandaSvc.Items.ToList()
+        };
+
+        var resultado = await ordenSvc.RealizarOrden(model);
+        if (!resultado.Exitoso)
+            await JsRuntime.InvokeVoidAsync("alert", resultado.Mensaje);
+        else {
+            comandaSvc.Vaciar();
+            navManager.NavigateTo("cuenta");
+        }
+    }
+}

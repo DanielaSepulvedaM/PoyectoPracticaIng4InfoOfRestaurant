@@ -1,0 +1,56 @@
+﻿@model AppAdministracion.Models.ConsumibleViewModel
+@{
+    ViewData["Title"] = "Crear";
+}
+
+<div class="row justify-content-center m-4">
+    <div class="col-6">
+        <h2>Crear Consumible</h2>
+        <form asp-action="Crear" enctype="multipart/form-data" method="post" class="border border-light p-4" style="box-shadow: 0px 8px 15px -3px rgba(0, 0, 0, 0.41);">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" placeholder="Ingrese el nombre del consumible" style="background: #f2f2f2;" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descripcion" class="control-label"></label>
+                <input asp-for="Descripcion" class="form-control"  placeholder="Ingrese la descripcion del consumible" style="background: #f2f2f2;" />
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Precio" class="control-label"></label>
+                <input asp-for="Precio" class="form-control"  style="background: #f2f2f2;"/>
+                <span asp-validation-for="Precio" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <span asp-validation-for="Foto"></span>
+                <hr />
+                <label>Seleccione la imagen del consumible</label>
+                <input asp-for="Foto"  aria-label="file example" type="file" style="color: #808080;">              
+            </div>
+            <div class="form-group pt-4">
+                <input type="submit" value="Crear" class="btn btn-lg btn-block" style="background: #ECA51F; color:#E5E5E5;" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Regresar a la lista</a>
+</div>
+<style>
+    button {
+        background: #ECA51F;
+        color: #E5E5E5;
+    }
+    h2 {
+        color: #B57600;
+        text-align: center;
+        margin: 10px;
+    }
+</style>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

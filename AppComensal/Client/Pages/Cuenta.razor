@@ -1,0 +1,57 @@
+﻿@page "/cuenta"
+@inject OrdenService ordenSvc
+@inject RestauranteService restauranteSvc
+
+<div class="contPrincipal h-100">
+    <h6 class="encabezado ml-3">Cuenta</h6>
+    <hr />
+    <table class="ml-3">
+        <thead>
+            <tr class="encabezados row m-1">
+                <th class="col-5">Nombre</th>
+                <th class="col-5">Cant</th>
+                <th class="col-2">Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="contenido row m-1">
+                <td class="col-5">Pollo</td>
+                <td class="col-5">2</td>
+                <td class="col-2">56</td>
+            </tr>
+        </tbody>       
+        <tfoot>
+            <hr />
+            <tr>
+                <td class="txtTotal" colspan="2">
+                    Subtotal: 56
+                </td>
+            </tr>
+            <tr>
+                <td class="txtTotal" colspan="2">
+                    <input type="number" name="prop" id="prop" min="1" max="10" step="2">
+                    10%
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <footer class="footer mx-4 row">
+        <div class="col-1"></div>
+        <NavLink class="nav-link col-4 btn navLink" href="" style="background: hsl(39deg 84% 52%); padding: 0px; margin-bottom: 5px; color: hsl(0deg 0% 100%);height">
+            <span></span>Pago en Linea
+        </NavLink>
+        <button class="btn btn-light btnMesero col-4">llamar mesero</button>
+        <div class="col-1"></div>
+    </footer>
+</div>
+
+
+    @code {
+        private AppComensal.Shared.Cuenta cuenta;
+
+        protected override async Task OnInitializedAsync()
+        {
+            var mesaId = await restauranteSvc.ObtenerMesa();
+            cuenta = await ordenSvc.ObtenerCuenta(mesaId);
+        }
+    }

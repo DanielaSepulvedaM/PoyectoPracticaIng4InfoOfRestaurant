@@ -1,0 +1,34 @@
+﻿@model Identity.Model.Rol
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<div class="row justify-content-center m-4">
+    <div class="col-6">
+        <h2>Editar Roles</h2>
+        <form asp-action="Editar">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Nombre</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-lg btn-block" style="background: #ECA51F; color:#E5E5E5;" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Volver a la lista</a>
+</div>
+<style>
+    h2 {
+        color: #B57600;
+        text-align: center;
+        margin: 10px;
+    }
+</style>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

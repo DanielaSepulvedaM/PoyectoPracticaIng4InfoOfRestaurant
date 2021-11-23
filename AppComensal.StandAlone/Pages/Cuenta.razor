@@ -1,0 +1,64 @@
+﻿@page "/cuenta"
+@using System.Globalization
+@inject OrdenService ordenSvc
+@inject RestauranteService restauranteSvc
+
+<div class="contPrincipal h-100">
+    <h6 class="encabezado ml-3 text-center">Cuenta</h6>
+    <hr />
+    <table class="ml-3">
+        <thead>
+            <tr class="encabezados row m-1">
+                <th class="col-6">Nombre</th>
+                <th class="col-2">Cant</th>
+                <th class="col-4">Precio</th>
+            </tr>
+        </thead>
+        @if (cuenta?.Items?.Any() ?? false)
+        {
+            <tbody>
+                @foreach (var item in cuenta.Items)
+                {
+                    <tr class="contenido row m-1">
+                        <td class="col-6">@item.Nombre</td>
+                        <td class="col-2">@item.Cantidad</td>
+                        <td class="col-4">@item.Valor.ToString("C", CultureInfo.CurrentCulture)</td>
+                    </tr>
+                }
+            </tbody>
+
+            <tfoot>
+                <hr />
+                <p class="text-center m-3 tituloFact">Liquidacion de la cuenta</p>
+                <tr class="col-12">
+                    <p class="mb-1" style="float:right"><strong class="col-8"> SUB TOTAL:</strong>@cuenta?.SubTotal.ToString("C", CultureInfo.CurrentCulture)</p>
+                </tr>
+                <tr class="col-12">
+                    <p class="mb-1" style="float:right"><strong class="col-8">INCLUIR SERVICIO: </strong><input type="checkbox" @bind-value="@cuenta.IncluirServicio" style="border: 1px solid #F2F2F2" checked></p>
+                </tr>
+                <tr class="col-12">
+                    <p class="mb-1" style="float:right"><strong class="col-8"> PROPINA: </strong>@cuenta?.Propina.ToString("C", CultureInfo.CurrentCulture)</p>
+                </tr>
+                <tr class="col-12">
+                    <p class="" style="float:right"><strong> TOTAL A PAGAR: </strong> @cuenta?.Total.ToString("C", CultureInfo.CurrentCulture)</p>
+                </tr>
+            </tfoot>
+        }
+    </table>
+    <hr />
+    <footer class="footer mx-4 row">
+        <div class="col-1"></div>
+        <NavLink class="nav-link col-3 btn navLink" href="pasarela" style="background: hsl(39deg 84% 52%); margin-bottom: 5px; color: hsl(0deg 0% 100%);height; background:#A84100">
+            Pagar
+        </NavLink>
+        <button class="btn btn-light btnMesero col-6" @onclick="PedirCuenta">Pedir Cuenta</button>
+        <div class="col-1"></div>
+    </footer>
+</div>
+
+@code {
+    private AppComensal.Shared.Cuenta cuenta => ordenSvc.Cuenta;
+
+    private Task PedirCuenta() => restauranteSvc.PedirCuenta();
+
+}

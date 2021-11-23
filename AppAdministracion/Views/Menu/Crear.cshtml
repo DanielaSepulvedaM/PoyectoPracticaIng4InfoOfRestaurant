@@ -1,0 +1,96 @@
+﻿@model MenuViewModel
+@{
+    ViewData["Title"] = "Crear";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+    <script type="text/javascript">
+
+        var model = {
+            ConsumiblesDisponibles: ko.observableArray([]),
+            ConsumiblesAgregados: ko.observableArray([])
+        }
+
+        function quitar(data) {
+            model.ConsumiblesAgregados.remove(data);
+            model.ConsumiblesDisponibles.push(data);
+        }
+
+        function agregar(data) {
+            model.ConsumiblesDisponibles.remove(data);
+            model.ConsumiblesAgregados.push(data);
+        }
+
+        $(function () {
+            $.ajax({
+                    url: '@Url.Action("Listar", "Menu")',
+                    method: 'GET',
+                    success: function (data) {
+                        model.ConsumiblesDisponibles(data.disponibles);
+                        model.ConsumiblesAgregados(data.agregados);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+            });
+
+            ko.applyBindings();
+        });
+    </script>
+}
+<div class="row justify-content-center m-4">
+    <div class="col-6">
+        <h2>Crear un Menu</h2>
+        <form method="post" class="border border-light p-4" style="box-shadow: 0px 8px 15px -3px rgba(0, 0, 0, 0.41);"
+              asp-action="Crear"
+              asp-route-restauranteId="@ViewBag.RestauranteID">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label>Nombre del Menu</label>
+                <input asp-for="Nombre" class="form-control" placeholder="Ingrese el nombre del menú" style="background: #f2f2f2;" />
+            </div>
+            <div class="form-group">
+                <label>Descripcion</label>
+                <input asp-for="Descripcion" class="form-control" placeholder="Ingrese la descripcion" style="background: #f2f2f2;" />
+            </div>
+            <div class="pt-4">
+                <button type="submit" class="btn btn-lg btn-block" style="background: #ECA51F; color:#E5E5E5;">Crear</button>
+            </div>
+            <hr />
+            <div class="row" id="consumibles">
+                <div class="col-5">
+                    Disponibles
+                    <hr />
+                    <ul class="list-group" data-bind="foreach: model.ConsumiblesDisponibles">
+                        <li data-bind="click: agregar" class="list-group-item" style="cursor: pointer">
+                            <span data-bind="text: nombre"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-2">
+                </div>
+                <div class="col-5">
+                    Agregados
+                    <hr />
+                    <ul class="list-group" data-bind="foreach: model.ConsumiblesAgregados">
+                        <li class="list-group-item" data-bind="click: quitar" style="cursor: pointer">
+                            <span data-bind="text: nombre"></span>
+                            <input type="hidden" data-bind="attr: { name: 'ConsumiblesIds['+ $index() +']' }, value: consumibleId" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Volver</a>
+</div>
+<style>
+    h2 {
+        color: #B57600;
+        text-align: center;
+        margin: 10px;
+    }
+</style>

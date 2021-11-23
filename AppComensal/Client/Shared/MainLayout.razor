@@ -1,0 +1,24 @@
+﻿@inherits LayoutComponentBase
+@inject PedidoService comanda
+
+<div class="page">   
+    <div class="main">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <p class="txt1">InfoOf</p>
+                    <p class="txt2">Restaurant</p>
+                </div>
+                <div class="col verPedido" style="list-style:none">
+                    <NavLink href="comanda" class="nav-link"  style="padding:12px 1px;color:#A84100; font-size:14px"  >
+                        Ver pedido <span class="badge badge-dark">@comanda.Items.Count()</span>
+                    </NavLink>                 
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            @Body
+        </div>
+    </div>
+</div>
+

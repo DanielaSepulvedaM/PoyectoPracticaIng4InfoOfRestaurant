@@ -1,0 +1,64 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Listar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model IEnumerable<Entidades.Menu>
+
+
+<div class="container-fluid mt-4">
+    <a class="btnCrear btn-lg ml-4" asp-action="Crear" asp-controller="Menu">Crear Menu</a>
+    <h2>Listado de Menus</h2>
+    <table class="table table-striped table-sm text-center p-4 tablaListarMenu">
+        <thead class="encabezados">
+            <tr>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var men in Model)
+            {
+                <tr>
+                    <td>@men.Nombre</td>
+                    <td>@men.Descripcion</td>
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            <a asp-controller="Menu" asp-action="Editar" asp-route-id="@men.MenuID" class="btn btn-success btn-sm" style="font-size:12px">
+                                Editar
+                            </a>
+                            <form method="post" asp-action="Eliminar" asp-controller="Menu" class="pt-1 mx-1">
+                                <button  type="submit" value="@men.MenuID" name="id" class="btn btn-outline-danger btn-sm" style="font-size:12px">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<style>
+    .tablaListarMenu {
+        box-shadow: 0px 8px 15px -3px rgba(0, 0, 0, 0.41);
+        border-radius: 15px;
+    }
+
+    .encabezados {
+        border-radius: 15px;
+    }
+
+    h2 {
+        color: #B57600;
+        text-align: center;
+        margin: 10px;
+    }
+
+    .btnCrear {
+        color: #ECA51F;
+        border: 1px solid #ECA51F;
+    }
+</style>
+

@@ -1,0 +1,32 @@
+﻿body {
+}
+.menuLateral {
+    background:#161413;
+}
+.letrasLogo {
+   font-size:24px;
+}
+.puntos {
+    line-height: 20px;
+    color: #B57600;
+    font-size: 50px;
+}
+.txt1 {
+    margin: 0px;
+    color: #ECA51F;
+}
+.txt2 {
+    line-height: 5px;
+    color: #B57600;
+    margin-bottom:60px;
+}
+li {
+    padding: .90rem 1.25rem;
+    text-align: center;
+    border-top: 1px solid rgba(229, 229, 229, 0.5);
+}
+a {
+    font-size: 23px;
+    color: #E5E5E5;
+    margin:5px;
+}

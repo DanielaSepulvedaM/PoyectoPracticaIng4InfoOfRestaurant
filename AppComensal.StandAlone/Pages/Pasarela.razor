@@ -1,0 +1,64 @@
+﻿@page "/pasarela"
+@inject OrdenService ordenSvc
+@inject NavigationManager navManager
+@inject IJSRuntime JsRuntime
+
+<div class="principal">
+    <div class="contenedor">
+        <center>
+            <img src="/images/imgPasarela.png" class="img justify-content-center" alt="My image" style="height:auto" />
+        </center>
+        <EditForm class="form" Model="tarjeta" OnValidSubmit="PagarCuenta">
+            <DataAnnotationsValidator />
+            <div class="form-header">
+                <h5 class="form-title">C<span>ontacto</span></h5>
+            </div>
+            <label for="tarjeta" class="form-label">Numero de tarjeta</label>
+            <InputText @bind-Value="tarjeta.Numero" class="form-input" placeholder="____ ____ ____ ____"></InputText>
+            <ValidationMessage For="@(() => tarjeta.Numero)"></ValidationMessage>
+            <label class="form-label">Nombre titular de la tarjeta</label>
+            <InputText @bind-Value="tarjeta.Nombre" class="form-input"></InputText>
+            <ValidationMessage For="@(() => tarjeta.Nombre)"></ValidationMessage>
+            <label class="form-label">Fecha de expiracion</label>
+            <InputNumber @bind-Value="tarjeta.Mes" class="form-input" placeholder="__" style="width: 30px"></InputNumber>/<InputNumber @bind-Value="tarjeta.Año" class="form-input" placeholder="__" style="width: 30px"></InputNumber>
+            <ValidationMessage For="@(() => tarjeta.Mes)"></ValidationMessage>
+            <ValidationMessage For="@(() => tarjeta.Año)"></ValidationMessage>
+            <label class="form-label">CVC</label>
+            <InputText @bind-Value="tarjeta.CVV" class="form-input" placeholder="____"></InputText>
+            <ValidationMessage For="@(() => tarjeta.CVV)"></ValidationMessage>
+            <label class="form-label">Numero de cuotas</label>
+            <InputNumber @bind-Value="tarjeta.Cuotas" class="form-input" placeholder="__"></InputNumber>
+            <ValidationMessage For="@(() => tarjeta.Cuotas)"></ValidationMessage>
+            <button type="submit" class="btn-submit">Pagar</button>
+        </EditForm>
+        @if (ProcesandoPago)
+        {
+            <div class="alert alert-primary" role="alert">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando pago...
+            </div>
+        }
+    </div>
+  
+</div>
+
+@code {
+    private TarjetaDeCredito tarjeta = new TarjetaDeCredito();
+
+    private bool ProcesandoPago = false;
+
+    async Task PagarCuenta()
+    {
+        ProcesandoPago = true;
+
+        var resultadoPago = await ordenSvc.PagarCuenta(tarjeta);
+        if (!resultadoPago.Exitoso)
+            await JsRuntime.InvokeVoidAsync("alert", resultadoPago.Mensaje);
+        else
+        {
+            await JsRuntime.InvokeVoidAsync("alert", resultadoPago.Mensaje);
+            navManager.NavigateTo("factura");
+        }
+
+        ProcesandoPago = false;
+    }
+}

@@ -1,0 +1,46 @@
+﻿@inherits LayoutComponentBase
+@inject PedidoService comanda
+@inject OrdenService ordenSvc
+@inject RestauranteService restauranteSvc
+
+<div class="page" >
+    <div class="main">
+        <div class="container-fluid" style="padding:0px" >
+            <div class="row">
+                <div class="col m-2">
+                    <NavLink href="">
+                        <p class="txt1">InfoOf</p>
+                        <p class="txt2">Restaurant</p>
+                    </NavLink>
+                </div>
+                <div class="col verPedido" style="list-style:none">
+                    <NavLink href="comanda" class="nav-link" style="padding:8px 1px;color:#A84100; font-size:14px; text-align:center">
+                        Ver pedido <span class="badge badge-dark">@comanda.Items.Count()</span>
+                    </NavLink>
+                    @if (HayCuentaAbierta)
+                    {
+                        <NavLink href="cuenta" class="nav-link" style="padding:5px 1px;color:#A84100; font-size:14px">
+                            La cuenta
+                        </NavLink>
+                    }
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn mx-4 my-1 btn-sm float-right" style="font-size: 14px" @onclick="LlamarMesero">LLamar Mesero</button>
+                </div>
+            </div>
+            <div class="content">
+                @Body
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+    private bool HayCuentaAbierta => ordenSvc.Cuenta?.Items?.Any() ?? false;
+
+    private Task LlamarMesero() => restauranteSvc.LlamarMesero();
+}
+

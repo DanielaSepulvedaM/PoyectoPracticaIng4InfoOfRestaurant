@@ -1,0 +1,76 @@
+﻿@page "/detalle"
+@inject PedidoService comanda
+@inject ConsumibleHolder holder
+@inject HttpClient http
+@inject NavigationManager navManager
+
+<div class="volver mx-2 my-2">
+    <NavLink href="" style="color:#FA0303;">Volver al menu</NavLink>
+</div>
+<div class="contPrincipal h-100">
+    <img src="@($"api/consumible/foto/{consumible.ConsumibleID}")" height="200" style="width:100%;height:auto" />
+    <hr />
+
+    <div class="ml-2 mx-4 mb-4">
+        <h6 class="nomPlato m-0">@consumible.Nombre</h6>
+        <p class="descPlato m-0">@consumible.Descripcion</p>
+    </div>
+   <br />
+</div>
+    
+    <div class="txt">
+        <p class="comentario mx-4">Comentarios</p>
+        <div class="row mx-3">
+            <textarea @bind="Notas" rows="3" class="form-control  txtComentario col-12" placeholder="Comentarios sobre el consumible"></textarea>
+        </div>       
+    </div>
+    <br />
+
+    <div class="row mx-1">
+        <div class="col p-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+            </svg>
+        </div>
+        <div class="col">
+            <input minlength="4" maxlength="4" size="5" />
+        </div>
+        <div class="col p-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+            </svg>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn float-right mx-4" @onclick="AgregarAComanda">Agregar</button>
+        </div>
+    </div>
+
+@code {
+
+    private ConsumibleModel consumible { get; set; }
+
+    private string Notas { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        this.consumible = holder.item;
+    }
+
+    private void AgregarAComanda()
+    {
+        var item = new Item
+        {
+            ConsumibleID = consumible.ConsumibleID,
+            Nombre = consumible.Nombre,
+            Descripcion = consumible.Descripcion,
+            Precio = consumible.Precio,
+            Nota = Notas
+        };
+
+        comanda.AgregarConsumible(item);
+        navManager.NavigateTo("");
+    }
+}

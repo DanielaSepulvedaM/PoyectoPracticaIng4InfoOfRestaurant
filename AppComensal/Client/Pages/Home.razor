@@ -1,0 +1,64 @@
+﻿@page "/"
+@page "/home/index"
+
+@inject ConsumibleHolder holder
+@inject NavigationManager NavManager
+@inject RestauranteService restauranteSvc
+
+<div class="contPrincipal h-100">
+    <img src="/images/imgHome2.png" class="img" alt="My image" style="width:100%;height:auto" />
+    <div class="row">
+        <div class="col-12">
+            @foreach (var men in menus)
+            {
+                <span class="badge badge-primary" style="cursor: pointer" @onclick="() => verConsumibles(men)">@men.Nombre</span>
+            }
+        </div>
+    </div>
+    <div class="txtRestaurant my-3 container-fluid">
+        <strong>Restaurante:</strong>@restaurante.Nombre
+    </div>
+    <p class="subtitulo">consumibles</p>
+    <div class="row mx-1">
+        <div class="col-12">
+            <div class="list-group">
+                @foreach (var consu in consumibles)
+                {
+                    <a class="list-group-item list-group-item-action text-align:center my-1" @onclick="() => verDetalles(consu)">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="nomPlato mb-1">@consu.Nombre</h6>
+                            <small class="precio">$@consu.Precio</small>
+                        </div>
+                        <p class="descPlato">@consu.Descripcion</p>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private RestauranteModel restaurante = new RestauranteModel();
+
+    private MenuModel[] menus = Array.Empty<MenuModel>();
+    private ConsumibleModel[] consumibles = Array.Empty<ConsumibleModel>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        restaurante = restauranteSvc.ObtenerInfoRestaurante();
+        menus = restauranteSvc.ObtenerMenus();
+
+        if (menus.Any())
+            consumibles = menus.First().Consumibles.ToArray();
+    }
+
+    private void verConsumibles(MenuModel men) {
+        consumibles = men.Consumibles.ToArray();
+    }
+
+    private void verDetalles(ConsumibleModel consumible) {
+        holder.item = consumible;
+        NavManager.NavigateTo("detalle");
+    }
+}
